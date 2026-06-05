@@ -5,7 +5,7 @@ const images = import.meta.glob(
     import: 'default',
   }
 );
-
+console.log('Загруженные изображения:', images);
 const getImage = (folder: string, file: string): string =>
   images[
     `../assets/characters/${folder}/${file}`

@@ -35,7 +35,11 @@ export default function MyLogo({ dark = false }: { dark?: boolean }) {
           transition={{ duration: 0.5 }}
         >
           {/* Draw friendly cute bunny face with ears */}
-<a href="https://ibb.co/21TpB6yk"><img src="https://i.ibb.co/pBSkpPxL/image.png" alt="image" border="0" /></a>
+          <img
+    src="https://i.ibb.co/pBSkpPxL/image.png"
+    alt="Мультипраздник"
+    className="w-full h-full object-cover"
+  />
         </motion.div>
       </div>
 
