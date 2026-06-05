@@ -1,3 +1,16 @@
+const images = import.meta.glob(
+  '../assets/characters/**/*.{jpg,jpeg,png,webp}',
+  {
+    eager: true,
+    import: 'default',
+  }
+);
+
+const getImage = (folder: string, file: string): string =>
+  images[
+    `../assets/characters/${folder}/${file}`
+  ] as string;
+
 export interface Program {
   id: string;
   title: string;
@@ -103,7 +116,7 @@ export const CHARACTERS_DATA: Character[] = [
     name: 'Рапунцель',
     category: 'girls',
     tags: ['Сказка', 'Принцесса'],
-    imageUrl: 'https://ibb.co/N6dN1ZYx',
+    imageUrl: getImage('girls', 'rapunsel.jpg'),
     description: 'Золотая коса, весёлый хамелеон Паскаль и море творчества! Прекрасная принцесса Рапунцель наполнит праздник песнями, рисованием, запуском волшебных фонариков и зажигательными танцами.'
   },
   {
@@ -111,7 +124,7 @@ export const CHARACTERS_DATA: Character[] = [
     name: 'Балл принцесс',
     category: 'girls',
     tags: ['Королевство', 'Торжество'],
-    imageUrl: 'https://ibb.co/hJy1C9QZ',
+    imageUrl: getImage('girls', 'ballprinces.jpg'),
     description: 'Настоящий королевский приём для юных леди! Все девочки почувствуют себя прекрасными принцессами. В программе: уроки этикета, королевское дефиле, блеск-тату, изящный вальс и коронация именинницы.'
   },
   {
@@ -119,7 +132,7 @@ export const CHARACTERS_DATA: Character[] = [
     name: 'Уэнсдей',
     category: 'girls',
     tags: ['Готика', 'Челленджи'],
-    imageUrl: 'https://ibb.co/5Wn0CXy8',
+    imageUrl: getImage('girls', 'yensdei.jpg'),
     description: 'Для смелых девчонок, любящих загадки Академии Невермор! Уэнсдей проведёт мистический квест, научит своему знаменитому вирусному танцу и поможет разгадать секреты семейки Аддамс.'
   },
   {
@@ -127,7 +140,7 @@ export const CHARACTERS_DATA: Character[] = [
     name: 'Единороги',
     category: 'girls',
     tags: ['Блестки', 'Магия'],
-    imageUrl: 'https://ibb.co/dJfxxGST',
+    imageUrl: getImage('girls', 'edinorog.jpg'),
     description: 'Радужная сказка для самых маленьких мечтательниц. В компании милейшего Единорога крохи отправятся на поиски волшебных кристаллов, станцуют под радужным шлейфом и получат сверкающий грим.'
   },
   {
@@ -135,7 +148,7 @@ export const CHARACTERS_DATA: Character[] = [
     name: 'Русалочка и Пират',
     category: 'girls',
     tags: ['Океан', 'Сокровища'],
-    imageUrl: 'https://ibb.co/xqM86zq0',
+    imageUrl: getImage('girls', 'rusalariel.jpg'),
     description: 'Морское приключение, полное тайн и веселья! Прекрасная Ариэль и весёлый Пират возглавят экспедицию по поиску затерянных сокровищ, проведут эстафету на ловкость и научат понимать язык дельфинов.'
   },
   {
@@ -143,7 +156,7 @@ export const CHARACTERS_DATA: Character[] = [
     name: 'Лесные феи',
     category: 'girls',
     tags: ['Природа', 'Волшебство'],
-    imageUrl: 'https://ibb.co/Zz00F0jF',
+    imageUrl: getImage('girls', 'lesiefei.jpg'),
     description: 'Магия цветов и доброты от лесных волшебниц! Юные гости научатся беречь природу, загадают заветные желания с помощью настоящей звёздной пыльцы и поучаствуют в нежном цветочном дефиле.'
   },
   {
@@ -151,7 +164,7 @@ export const CHARACTERS_DATA: Character[] = [
     name: 'Сказочный патруль',
     category: 'girls',
     tags: ['Магия', 'Команда'],
-    imageUrl: 'https://ibb.co/RGs1py5Y',
+    imageUrl: getImage('girls', 'skazochniipatrul.jpg'),
     description: 'Вместе с юными волшебницами из Мышкина ребятам предстоит освоить основы природной магии, защитить город от сказочных монстров и пройти командный квест на дружбу.'
   },
   {
@@ -159,7 +172,7 @@ export const CHARACTERS_DATA: Character[] = [
     name: 'Лалафан и Хэлоу китти',
     category: 'girls',
     tags: ['Милота', 'Игрушки'],
-    imageUrl: 'https://ibb.co/MxpQNXr8',
+    imageUrl: getImage('girls', 'lalafan.jpg'),
     description: 'Самая нежная, мягкая и милая программа для малышей! Уточка Лалафанфан и Хэлоу Китти устроят весёлый плюшевый бой, научат делать милые обнимашки и подарят море радужного настроения.'
   },
 
@@ -169,7 +182,7 @@ export const CHARACTERS_DATA: Character[] = [
     name: 'Леон бравл старс',
     category: 'boys',
     tags: ['Гейминг', 'Актив'],
-    imageUrl: 'https://ibb.co/qY1406MH',
+    imageUrl: getImage('boys', 'leon.jpg'),
     description: 'Легендарный боец Brawl Stars в фирменном зелёном худи! Ребят ждут захватывающие раунды, сбор кристаллов силы, прохождение полосы препятствий и активная тренировка ловкости.'
   },
   {
@@ -177,7 +190,7 @@ export const CHARACTERS_DATA: Character[] = [
     name: 'Вечеринка супергероев',
     category: 'boys',
     tags: ['Спасатели', 'Сила'],
-    imageUrl: 'https://ibb.co/Pv0Hdn9S',
+    imageUrl: getImage('boys', 'supergeroi.jpg'),
     description: 'Всеобщая мобилизация юных спасателей! Командные состязания, проверка на супер-силу, преодоление гравитации и защита вселенной. В конце — торжественное посвящение в Лигу Героев!'
   },
   {
@@ -185,7 +198,7 @@ export const CHARACTERS_DATA: Character[] = [
     name: 'Бэтмен',
     category: 'boys',
     tags: ['Готэм', 'Логово'],
-    imageUrl: 'https://ibb.co/6cmfJZc5',
+    imageUrl: getImage('boys', 'betman.jpg'),
     description: 'Зажиточный Готэм в безопасности, когда Бэтмен спешит на помощь! Бэтмен научит юных героев скрытности, прохождению лазерных паутин, дешифровке посланий и командной взаимовыручке.'
   },
   {
@@ -193,7 +206,7 @@ export const CHARACTERS_DATA: Character[] = [
     name: 'Черепашки ниндзя',
     category: 'boys',
     tags: ['Ниндзя', 'Пицца'],
-    imageUrl: 'https://ibb.co/bpdr8Hx',
+    imageUrl: getImage('boys', 'ninza.jpg'),
     description: 'Кавабанга! Легендарный Леонардо или Рафаэль научит боевому искусству ниндзя, проведёт тренировку с нунчаками (безопасными!) и устроит весёлый пицца-турнир.'
   },
   {
@@ -201,7 +214,7 @@ export const CHARACTERS_DATA: Character[] = [
     name: 'Вечеринка спецназ',
     category: 'boys',
     tags: ['Курс', 'Препятствия'],
-    imageUrl: 'https://ibb.co/p6CQgV8F',
+    imageUrl: getImage('boys', 'specnaz.jpg'),
     description: 'Тактический вызов для сильных духом! Настоящий армейский курс молодого бойца: маскировка, тактическая полоса препятствий, спортивное ориентирование и разминирование макета бомбы.'
   },
   {
@@ -209,7 +222,7 @@ export const CHARACTERS_DATA: Character[] = [
     name: 'Трансформеры',
     category: 'boys',
     tags: ['Роботы', 'Будущее'],
-    imageUrl: 'https://ibb.co/S7Q7fdCy',
+    imageUrl: getImage('boys', 'transformer.jpg'),
     description: 'Космическая кибернетическая битва автоботов! Оптимус Прайм соберёт команду для поиска затерянной Искры, проведёт лазерные учения и научит трансформироваться под зажигательную музыку.'
   },
 
@@ -219,7 +232,7 @@ export const CHARACTERS_DATA: Character[] = [
     name: 'Игра в кальмара',
     category: 'teens',
     tags: ['Квесты', 'Тренды'],
-    imageUrl: 'https://ibb.co/bj1YrygJ',
+    imageUrl: getImage('teens', 'calmar.jpg'),
     description: 'Безопасная и мега-популярная игра на сплочение! Ребятам предстоит пройти испытания «Тише едешь — дальше будешь», вырезать фигурки из сахарных сот и заработать миллионы игровых баллов.'
   },
   {
@@ -227,7 +240,7 @@ export const CHARACTERS_DATA: Character[] = [
     name: 'Уэнсдей',
     category: 'teens',
     tags: ['Таинственность', 'Танец'],
-    imageUrl: 'https://ibb.co/m5HGW45C',
+    imageUrl: getImage('teens', 'yendsdei.jpg'),
     description: 'Погружение в мрачную, но невероятно притягательную атмосферу Академии Невермор! Готические челленджи, угадывание мыслей от Вещи, вирусный танец Уэнсдей и раскрытие тайны монстра.'
   },
   {
@@ -235,7 +248,7 @@ export const CHARACTERS_DATA: Character[] = [
     name: 'Барби вечеринка',
     category: 'teens',
     tags: ['Гламур', 'Стиль'],
-    imageUrl: 'https://ibb.co/WW65TznN',
+    imageUrl: getImage('teens', 'barbi.jpg'),
     description: 'Hi Barbie! Самая гламурная и розовая тусовка этого года. Блеск-шоу, модный показ, создание стильных аксессуаров своими руками, фотосессия в стиле Барби-бокс и розовый лимонад.'
   },
   {
@@ -243,7 +256,7 @@ export const CHARACTERS_DATA: Character[] = [
     name: 'Вечеринка Блогеров',
     category: 'teens',
     tags: ['Челленджи', 'Тренды'],
-    imageUrl: 'https://ibb.co/wZpQykmj',
+    imageUrl: getImage('teens', 'bloger.jpg'),
     description: 'Для тех, кто всегда в тренде! TikTok, YouTube, Likee челленджи в реальном времени. Будем снимать вирусные дуэты, угадывать напитки по вкусу, проходить "Трясучки" и зарабатывать лайки.'
   },
   {
@@ -251,7 +264,7 @@ export const CHARACTERS_DATA: Character[] = [
     name: 'Вечеринка спецназ',
     category: 'teens',
     tags: ['Миссия', 'Актив'],
-    imageUrl: 'https://ibb.co/YBNTctPg',
+    imageUrl: getImage('teens', 'specnaz.jpg'),
     description: 'Крутой курс выживания и полоса препятствий для подростков! Обучение тактике, ориентирование в темноте, командные спасательные миссии и захватывающий лазерный бой.'
   },
   {
@@ -259,7 +272,7 @@ export const CHARACTERS_DATA: Character[] = [
     name: 'Джокер и Харли Квинн',
     category: 'teens',
     tags: ['Косплей', 'Безумие'],
-    imageUrl: 'https://ibb.co/bhh09DC',
+    imageUrl: getImage('teens', 'joker.jpg'),
     description: 'Потрясающий взрыв вечеринки в стиле Готэм-сити! Сумасшедшие качественные пранки, весёлый дестрой, яркий неоновый аквагрим и море шуток от самой безбашенной парочки.'
   },
   {
@@ -267,7 +280,7 @@ export const CHARACTERS_DATA: Character[] = [
     name: 'Вечеринка Гарри Поттер',
     category: 'teens',
     tags: ['Магия', 'Хогвартс'],
-    imageUrl: 'https://ibb.co/zV9Cp2tn',
+    imageUrl: getImage('teens', 'poter.jpg'),
     description: 'Письмо из Хогвартса получено! Распределяющая Шляпа выберет факультет, ребята сварят волшебное зелье, освоят заклинания волшебными палочками и поучаствуют в турнире по Квиддичу.'
   },
 
@@ -277,7 +290,7 @@ export const CHARACTERS_DATA: Character[] = [
     name: 'Щенячий патруль',
     category: 'universal',
     tags: ['Будни', 'Подвиги'],
-    imageUrl: 'https://ibb.co/mVgMJmw8',
+    imageUrl: getImage('universal', 'chenyachiipatrul.jpg'),
     description: 'Отважным щенкам всё-всё по зубам! Вместе с Гонщиком или Скай малыши отправятся спасать Бухту Приключений, соберут пожарный шланг, пройдут полосу препятствий и станцуют Тяв-Тяв Буги!'
   },
   {
@@ -285,7 +298,7 @@ export const CHARACTERS_DATA: Character[] = [
     name: 'Тролли',
     category: 'universal',
     tags: ['Песни', 'Краски'],
-    imageUrl: 'https://ibb.co/GvWrXkKt',
+    imageUrl: getImage('universal', 'trol.jpg'), 
     description: 'Самая яркая, добрая и обнимательная программа! Розочка и Цветан устроят взрывной флешмоб, разукрасят праздник радужными красками и научат главному закону троллей: петь, танцевать и обниматься каждые 15 минут.'
   },
   {
@@ -293,7 +306,7 @@ export const CHARACTERS_DATA: Character[] = [
     name: 'Пикачу',
     category: 'universal',
     tags: ['Покемоны', 'Энергия'],
-    imageUrl: 'https://ibb.co/3m97KdGG',
+    imageUrl: getImage('universal', 'pikachu.jpg'),
     description: 'Жёлтая супер-молния Пикачу дарит невероятный заряд бодрости! Ребят ждут ловля покемонов в огромные покеболы, зажигательные танцы, запуск бумажных молний и море задора.'
   },
   {
@@ -301,7 +314,7 @@ export const CHARACTERS_DATA: Character[] = [
     name: 'Леди Баг и Супер Кот',
     category: 'universal',
     tags: ['Париж', 'Спасение'],
-    imageUrl: 'https://ibb.co/MDt7g568',
+    imageUrl: getImage('universal', 'ledibag.jpg'),
     description: 'Париж в опасности! Леди Баг и Супер Кот собирают команду смельчаков. Ребятам предстоит поймать всех темных бабочек Акум, разгадать секретные послания и спасаться от Бражника.'
   },
   {
@@ -309,7 +322,7 @@ export const CHARACTERS_DATA: Character[] = [
     name: 'Хагги Ваги и Кисси мисси',
     category: 'universal',
     tags: ['Тренды', 'Улыбка'],
-    imageUrl: 'https://ibb.co/mVXvHK54',
+    imageUrl: getImage('universal', 'hagivagi.jpg'),
     description: 'Вопреки легендам, наши Хагги Ваги и Кисси Мисси – безумно дружелюбные и милые плюшевые гиганты! Они обожают активные игры, догонялки, цветные туннели и самые крепкие объятия в мире.'
   },
   {
@@ -317,7 +330,7 @@ export const CHARACTERS_DATA: Character[] = [
     name: 'Амонг ас',
     category: 'universal',
     tags: ['Космос', 'Квест'],
-    imageUrl: 'https://ibb.co/HTHbLxtq',
+    imageUrl: getImage('universal', 'amongas.jpg'),
     description: 'Космический квест на сплочение прямо у вас! Таинственное голосование, проверка отсеков космического корабля, починка электропроводки и вычисление хитрого предателя.'
   },
   {
@@ -325,7 +338,7 @@ export const CHARACTERS_DATA: Character[] = [
     name: 'Майнкрафт',
     category: 'universal',
     tags: ['Строительство', 'Выживание'],
-    imageUrl: 'https://ibb.co/ycPTBnBM',
+    imageUrl: getImage('universal', 'minecraft.jpg'),
     description: 'Проходим кубический квест! Строим защитную крепость из огромных блоков, крафтим алмазные мечи, побеждаем Ифрита и танцуем победный танец Стива.'
   },
   {
@@ -333,7 +346,7 @@ export const CHARACTERS_DATA: Character[] = [
     name: 'Фиксики',
     category: 'universal',
     tags: ['Винтик', 'Приборы'],
-    imageUrl: 'https://ibb.co/C5xr8fB1',
+    imageUrl: getImage('universal', 'fiksiki.jpg'),
     description: 'А кто такие Фиксики — большой-большой секрет! Но только не у нас на празднике. Симка и Нолик познакомят ребят с устройством приборов, потанцуют под «Помогатор» и соберут гигантский винтик.'
   },
   {
@@ -341,7 +354,7 @@ export const CHARACTERS_DATA: Character[] = [
     name: 'Русалочка и Пират',
     category: 'universal',
     tags: ['Поиск', 'Океан'],
-    imageUrl: 'https://ibb.co/TqJRnw2N',
+    imageUrl: getImage('universal', 'rualariel.jpg'),
     description: 'Любимый приключенческий коктейль для всех ребят! Поднимаем паруса, преодолеваем рифы, учимся морским узлам и делим сундук золотых дублонов дружно и весело.'
   }
 ];
