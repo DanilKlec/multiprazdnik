@@ -1,7 +1,7 @@
 import React from 'react';
 
 // Добавляем возможность передать путь к фото через пропсы
-export default function MyLogo({ className = "", imageSrc = "./favicon.png" }: { className?: string, imageSrc?: string }) {
+export default function MyLogo({ className = "", imageSrc = "/favicon.png" }: { className?: string, imageSrc?: string }) {
   
   return (
     <div className={`flex items-center gap-3 select-none ${className}`} id="brand-logo">
