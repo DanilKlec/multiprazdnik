@@ -1,5 +1,5 @@
-import logo from '../../logo.png';
+import logo from '../assets/logo.png';
 
 export default function MyLogo() {
-  return <img src={logo} alt="logo" className="w-14 h-14" />;
+  return <img src={logo} alt="logo" className="w-16 h-16" />;
 }
