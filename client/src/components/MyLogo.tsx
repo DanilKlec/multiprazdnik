@@ -1,12 +1,14 @@
 import React from 'react';
-import myLogo from './image_a8864a.png';
 
 export default function MyLogo({ className = "" }: { className?: string }) {
+  // Используем конкретное имя файла, которое было загружено в проект
+  const logoUrl = "/image_a8864a.png";
+  
   return (
     <div className={`flex items-center gap-3 select-none ${className}`} id="brand-logo">
       <div className="w-16 h-16 flex items-center justify-center relative overflow-hidden rounded-full border-2 border-amber-400 bg-white shadow-md">
         <img
-          src={myLogo} 
+          src={logoUrl}
           alt="Логотип"
           className="w-full h-full object-contain"
           // Добавили проверку, чтобы избежать лишних ошибок в консоли
