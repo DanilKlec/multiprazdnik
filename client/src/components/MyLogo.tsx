@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function MyLogo({ className = "" }: { className?: string }) {
   // Используем конкретное имя файла, которое было загружено в проект
-  const logoUrl = "/image_a8864a.png";
+  const logoUrl = "../../logo.png";
   
   return (
     <div className={`flex items-center gap-3 select-none ${className}`} id="brand-logo">
