@@ -156,7 +156,7 @@ export const CHARACTERS_DATA: Character[] = [
     name: 'Лесные феи',
     category: 'girls',
     tags: ['Природа', 'Волшебство'],
-    imageUrl: getImage('girls', 'lesiefei.jpg'),
+    imageUrl: getImage('girls', 'lesniefei.jpg'),
     description: 'Магия цветов и доброты от лесных волшебниц! Юные гости научатся беречь природу, загадают заветные желания с помощью настоящей звёздной пыльцы и поучаствуют в нежном цветочном дефиле.'
   },
   {

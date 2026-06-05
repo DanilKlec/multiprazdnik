@@ -143,7 +143,7 @@ export default function App() {
         <div className="max-w-7xl mx-auto px-4 md:px-8 flex items-center justify-between gap-4">
           {/* Typographic animated logo */}
           <a href="#hero" className="no-underline">
-            <a href="https://ibb.co/21TpB6yk"><img src="https://i.ibb.co/pBSkpPxL/image.png" alt="image" border="0" /></a>
+            <MyLogo />
           </a>
 
           {/* Desktop Navigation Links */}
@@ -632,7 +632,7 @@ export default function App() {
           
           {/* Logo column */}
           <div className="md:col-span-5 space-y-4 text-left">
-            <a href="https://ibb.co/21TpB6yk"><img src="https://i.ibb.co/pBSkpPxL/image.png" alt="image" border="0" /></a>
+            <MyLogo dark />
             <p className="text-xs md:text-sm font-semibold text-white/70 max-w-sm leading-relaxed">
               Мультипраздник — детская праздничная сказка в Тирасполе. Живем любовью к детям, искренними эмоциями и уютом. Зажигаем волшебство вместе!
             </p>
