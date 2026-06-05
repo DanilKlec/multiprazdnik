@@ -13,10 +13,10 @@ COPY . .
 
 # Переходим в папку фронтенда, устанавливаем его зависимости и собираем его
 # Результат сборки Vite автоматически запишется в папку /app/public
-RUN cd frontend && npm install && npm run build
+RUN cd client && npm install && npm run build
 
 # Удаляем исходные файлы фронтенда из контейнера для экономии места
-RUN rm -rf frontend
+RUN rm -rf client
 
 # Указываем порт, который слушает приложение
 EXPOSE 5000
