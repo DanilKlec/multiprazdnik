@@ -19,9 +19,20 @@ app.use(express.static(path.join(__dirname, 'public'), {
   }
 }));
 
-// Определяем, является ли база данных локальной (внутри Docker-compose или на localhost)
-const dbUrl = process.env.DATABASE_URL || 'postgresql://postgres:postgres@localhost:5432/multiprazdnik';
-const isLocalDb = dbUrl.includes('localhost') || dbUrl.includes('postgres-db') || dbUrl.includes('127.0.0.1');
+// Принудительно очищаем и проверяем строку подключения
+let dbUrl = process.env.DATABASE_URL;
+
+// Если переменная окружения DATABASE_URL не задана на хостинге, используем локальную
+if (!dbUrl) {
+  console.log('DATABASE_URL не найдена в переменных окружения. Используем локальное подключение по умолчанию.');
+  dbUrl = 'postgresql://postgres:postgres@127.0.0.1:5432/multiprazdnik';
+} else {
+  // На некоторых хостингах (например, Render) переменная может быть обернута в кавычки. Очищаем их.
+  dbUrl = dbUrl.trim().replace(/^["']|["']$/g, '');
+}
+
+// Проверяем, является ли база данных локальной
+const isLocalDb = dbUrl.includes('localhost') || dbUrl.includes('127.0.0.1') || dbUrl.includes('postgres-db');
 
 // Настройка подключения к PostgreSQL. SSL включается только для внешних (облачных) СУБД.
 const pool = new Pool({
@@ -90,7 +101,7 @@ async function initDatabase() {
     } catch (err) {
       console.error(`Ошибка подключения к БД. Осталось попыток: ${retries - 1}. Ошибка:`, err.message);
       retries -= 1;
-      // Ждем 5 секунд перед повторной попыткой (актуально при запуске Docker, пока БД поднимается)
+      // Ждем 5 секунд перед повторной попыткой
       await new Promise(res => setTimeout(res, 5000));
     }
   }
