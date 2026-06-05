@@ -29,18 +29,17 @@ export default function MyLogo({ dark = false }: { dark?: boolean }) {
         </motion.div>
 
         {/* Hand-drawn style bunny avatar */}
-        <motion.div 
-          className="w-10 h-10 bg-white rounded-full border-2 border-brand-outline/30 flex items-center justify-center overflow-visible shadow-sm relative z-20 group-hover:scale-105 transition-transform duration-300"
-          whileHover={{ rotate: [0, -5, 5, -5, 0] }}
-          transition={{ duration: 0.5 }}
-        >
-          {/* Draw friendly cute bunny face with ears */}
-          <img
+<motion.div
+  className="w-10 h-10 bg-white rounded-full border-2 border-brand-outline/30 flex items-center justify-center overflow-hidden shadow-sm relative z-20 group-hover:scale-105 transition-transform duration-300"
+  whileHover={{ rotate: [0, -5, 5, -5, 0] }}
+  transition={{ duration: 0.5 }}
+>
+  <img
     src="https://i.ibb.co/pBSkpPxL/image.png"
     alt="Мультипраздник"
-    className="w-full h-full object-cover"
+    className="w-8 h-8 object-contain"
   />
-        </motion.div>
+</motion.div>
       </div>
 
       {/* Brand typographic letters in Nunito Sans */}

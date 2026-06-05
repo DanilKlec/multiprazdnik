@@ -1,5 +1,5 @@
 const images = import.meta.glob(
-  '../assets/characters/**/*.{jpg,jpeg,png,webp}',
+  '/src/assets/characters/**/*.{jpg,jpeg,png,webp}',
   {
     eager: true,
     import: 'default',
@@ -8,7 +8,7 @@ const images = import.meta.glob(
 console.log('Загруженные изображения:', images);
 const getImage = (folder: string, file: string): string =>
   images[
-    `../assets/characters/${folder}/${file}`
+    `/src/assets/characters/${folder}/${file}`
   ] as string;
 
 export interface Program {
