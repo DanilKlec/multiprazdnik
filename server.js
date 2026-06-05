@@ -5,6 +5,7 @@ const path = require('path');
 const fs = require('fs');
 
 const app = express();
+// На Render.com порт всегда передается в process.env.PORT (обычно 10000)
 const PORT = process.env.PORT || 5000;
 
 // Разрешаем CORS-запросы и парсинг JSON-тела запросов
@@ -35,124 +36,128 @@ if (!dbUrl) {
 // Проверяем, является ли база данных локальной
 const isLocalDb = dbUrl.includes('localhost') || dbUrl.includes('127.0.0.1') || dbUrl.includes('postgres-db');
 
-// Настройка подключения к PostgreSQL. SSL включается только для внешних (облачных) СУБД.
-const pool = new Pool({
+// Настройка пула подключений к PostgreSQL с защитой от перегрузки бесплатного лимита Supabase/PgBouncer
+const poolConfig = {
   connectionString: dbUrl,
-  ssl: isLocalDb ? false : { rejectUnauthorized: false }
+  ssl: isLocalDb ? false : { rejectUnauthorized: false },
+  // Очень важно для бесплатных БД (ограничиваем пул, чтобы не ловить ошибки превышения лимитов)
+  max: isLocalDb ? 10 : 2, 
+  idleTimeoutMillis: 15000, // закрывать неиспользуемые соединения через 15 секунд
+  connectionTimeoutMillis: 10000 // таймаут на установку соединения
+};
+
+const pool = new Pool(poolConfig);
+
+// Логирование ошибок пула в фоне, чтобы сервер не падал при разрывах СУБД
+pool.on('error', (err) => {
+  console.error('Непредвиденная ошибка в пуле подключений PostgreSQL:', err.message);
 });
 
-// Функция инициализации таблиц и автозаполнения базы данных
+// Асинхронная инициализация таблиц и автозаполнения базы данных (без блокировки старта сервера)
 async function initDatabase() {
-  let retries = 5;
-  while (retries) {
-    try {
-      const client = await pool.connect();
-      console.log('Успешно подключено к PostgreSQL. Проверка и создание таблиц...');
-      
-      // 1. Создаем таблицу Героев
+  console.log('Начало фоновой проверки структуры базы данных...');
+  try {
+    const client = await pool.connect();
+    
+    // 1. Создаем таблицу Героев
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS heroes (
+        id SERIAL PRIMARY KEY,
+        name VARCHAR(100) NOT NULL,
+        description TEXT NOT NULL,
+        age_range VARCHAR(50) NOT NULL,
+        category VARCHAR(50) NOT NULL,
+        image_url TEXT NOT NULL
+      );
+    `);
+
+    // 2. Создаем таблицу Бронирований для календаря
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS bookings (
+        id SERIAL PRIMARY KEY,
+        ticket_id VARCHAR(100) NOT NULL UNIQUE,
+        child_name VARCHAR(100) NOT NULL,
+        child_age INTEGER NOT NULL,
+        event_date DATE NOT NULL,
+        event_time VARCHAR(20) NOT NULL,
+        selected_program VARCHAR(150) NOT NULL,
+        selected_character VARCHAR(150) NOT NULL,
+        parent_name VARCHAR(100) NOT NULL,
+        parent_phone VARCHAR(50) NOT NULL,
+        specific_wishes TEXT,
+        add_cake BOOLEAN DEFAULT FALSE,
+        add_confetti BOOLEAN DEFAULT FALSE,
+        total_price INTEGER NOT NULL,
+        status VARCHAR(50) DEFAULT 'pending',
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+    `);
+
+    // 3. Создаем таблицу Новостей (на случай запросов фронтенда)
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS news (
+        id SERIAL PRIMARY KEY,
+        title VARCHAR(255) NOT NULL,
+        date DATE DEFAULT CURRENT_DATE,
+        description TEXT NOT NULL,
+        image_url TEXT NOT NULL
+      );
+    `);
+
+    // 4. Создаем таблицу Отзывов (на случай запросов фронтенда)
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS reviews (
+        id SERIAL PRIMARY KEY,
+        author VARCHAR(100) NOT NULL,
+        text TEXT NOT NULL,
+        rating INT DEFAULT 5,
+        date VARCHAR(50) NOT NULL,
+        avatar_url TEXT
+      );
+    `);
+
+    // Заполняем таблицу героев базовыми данными, если она пуста
+    const heroCheck = await client.query('SELECT COUNT(*) FROM heroes');
+    if (parseInt(heroCheck.rows[0].count, 10) === 0) {
+      console.log('База данных пуста. Заполнение таблицы героев демонстрационными данными...');
       await client.query(`
-        CREATE TABLE IF NOT EXISTS heroes (
-          id SERIAL PRIMARY KEY,
-          name VARCHAR(100) NOT NULL,
-          description TEXT NOT NULL,
-          age_range VARCHAR(50) NOT NULL,
-          category VARCHAR(50) NOT NULL,
-          image_url TEXT NOT NULL
-        );
+        INSERT INTO heroes (name, description, age_range, category, image_url) VALUES
+        ('Коржик и Карамелька', 'Веселые котята устроят незабываемый праздник с играми, танцами и мыльными пузырями.', '2-6 лет', 'Мультфильмы', 'https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=500&q=80'),
+        ('Человек-Паук', 'Супергеройская тренировка, спасение мира, прохождение лазерного лабиринта и секретная миссия.', '5-10 лет', 'Супергерои', 'https://images.unsplash.com/photo-1604200213928-ba3cf4fc8436?auto=format&fit=crop&w=500&q=80'),
+        ('Эльза и Олаф', 'Волшебная снежная сказка, ледяное шоу, искренние объятия и магия дружбы.', '3-8 лет', 'Принцессы', 'https://images.unsplash.com/photo-1518895949257-7621c3c786d7?auto=format&fit=crop&w=500&q=80'),
+        ('Трансформер Бамблби', 'Гигантский робот со световыми эффектами, дымовой пушкой и космическими танцами.', '6-12 лет', 'Роботы', 'https://images.unsplash.com/photo-1531259683007-016a7b628fc3?auto=format&fit=crop&w=500&q=80');
       `);
-
-      // 2. Создаем таблицу Бронирований для календаря
-      await client.query(`
-        CREATE TABLE IF NOT EXISTS bookings (
-          id SERIAL PRIMARY KEY,
-          ticket_id VARCHAR(100) NOT NULL UNIQUE,
-          child_name VARCHAR(100) NOT NULL,
-          child_age INTEGER NOT NULL,
-          event_date DATE NOT NULL,
-          event_time VARCHAR(20) NOT NULL,
-          selected_program VARCHAR(150) NOT NULL,
-          selected_character VARCHAR(150) NOT NULL,
-          parent_name VARCHAR(100) NOT NULL,
-          parent_phone VARCHAR(50) NOT NULL,
-          specific_wishes TEXT,
-          add_cake BOOLEAN DEFAULT FALSE,
-          add_confetti BOOLEAN DEFAULT FALSE,
-          total_price INTEGER NOT NULL,
-          status VARCHAR(50) DEFAULT 'pending',
-          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-        );
-      `);
-
-      // 3. Создаем таблицу Новостей (на случай запросов фронтенда)
-      await client.query(`
-        CREATE TABLE IF NOT EXISTS news (
-          id SERIAL PRIMARY KEY,
-          title VARCHAR(255) NOT NULL,
-          date DATE DEFAULT CURRENT_DATE,
-          description TEXT NOT NULL,
-          image_url TEXT NOT NULL
-        );
-      `);
-
-      // 4. Создаем таблицу Отзывов (на случай запросов фронтенда)
-      await client.query(`
-        CREATE TABLE IF NOT EXISTS reviews (
-          id SERIAL PRIMARY KEY,
-          author VARCHAR(100) NOT NULL,
-          text TEXT NOT NULL,
-          rating INT DEFAULT 5,
-          date VARCHAR(50) NOT NULL,
-          avatar_url TEXT
-        );
-      `);
-
-      // Заполняем таблицу героев базовыми данными, если она пуста
-      const heroCheck = await client.query('SELECT COUNT(*) FROM heroes');
-      if (parseInt(heroCheck.rows[0].count) === 0) {
-        console.log('База данных пуста. Заполнение таблицы героев демонстрационными данными...');
-        await client.query(`
-          INSERT INTO heroes (name, description, age_range, category, image_url) VALUES
-          ('Коржик и Карамелька', 'Веселые котята устроят незабываемый праздник с играми, танцами и мыльными пузырями.', '2-6 лет', 'Мультфильмы', 'https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=500&q=80'),
-          ('Человек-Паук', 'Супергеройская тренировка, спасение мира, прохождение лазерного лабиринта и секретная миссия.', '5-10 лет', 'Супергерои', 'https://images.unsplash.com/photo-1604200213928-ba3cf4fc8436?auto=format&fit=crop&w=500&q=80'),
-          ('Эльза и Олаф', 'Волшебная снежная сказка, ледяное шоу, искренние объятия и магия дружбы.', '3-8 лет', 'Принцессы', 'https://images.unsplash.com/photo-1518895949257-7621c3c786d7?auto=format&fit=crop&w=500&q=80'),
-          ('Трансформер Бамблби', 'Гигантский робот со световыми эффектами, дымовой пушкой и космическими танцами.', '6-12 лет', 'Роботы', 'https://images.unsplash.com/photo-1531259683007-016a7b628fc3?auto=format&fit=crop&w=500&q=80');
-        `);
-      }
-
-      // Заполняем таблицу новостей, если пуста
-      const newsCheck = await client.query('SELECT COUNT(*) FROM news');
-      if (parseInt(newsCheck.rows[0].count) === 0) {
-        await client.query(`
-          INSERT INTO news (title, date, description, image_url) VALUES
-          ('Открытие нашей новой уютной студии!', '2026-05-20', 'Мы расширились! Теперь у нас есть собственное пространство для праздников с интерактивной зоной, сценой и банкетным залом.', 'https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=800&q=80'),
-          ('Новинка: Шоу гигантских мыльных пузырей с огнем', '2026-06-01', 'Уникальное интерактивное шоу, где каждый ребенок сможет оказаться внутри гигантского мыльного пузыря и загадать желание.', 'https://images.unsplash.com/photo-1501555088652-021faa106b9b?auto=format&fit=crop&w=800&q=80');
-        `);
-      }
-
-      // Заполняем таблицу отзывов, если пуста
-      const reviewsCheck = await client.query('SELECT COUNT(*) FROM reviews');
-      if (parseInt(reviewsCheck.rows[0].count) === 0) {
-        await client.query(`
-          INSERT INTO reviews (author, text, rating, date, avatar_url) VALUES
-          ('Екатерина (мама Миши, 6 лет)', 'Спасибо огромное за праздник! Человек-Паук был просто на высоте. Дети в восторге, родители отдохнули. Очень чистая и красивая студия!', 5, '15.05.2026', 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=150&q=80'),
-          ('Дмитрий (папа Алисы, 8 лет)', 'Заказывали выездной квест на дачу. Аниматоры приехали вовремя, со своим реквизитом и музыкой. Увлекли даже взрослых. Рекомендую!', 5, '28.05.2026', 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80'),
-          ('Мария (мама Сони, 4 года)', 'Праздновали в студии Мультипраздник. Идеальный сервис, очень вежливые администраторы. Программа с Карамелькой супер-милая!', 5, '02.06.2026', 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=150&q=80');
-        `);
-      }
-
-      console.log('Инициализация структуры и наполнение базы данных выполнены успешно!');
-      client.release();
-      break;
-    } catch (err) {
-      console.error(`Ошибка подключения к БД. Осталось попыток: ${retries - 1}. Ошибка:`, err.message);
-      retries -= 1;
-      // Ждем 5 секунд перед повторной попыткой
-      await new Promise(res => setTimeout(res, 5000));
     }
+
+    // Заполняем таблицу новостей, если пуста
+    const newsCheck = await client.query('SELECT COUNT(*) FROM news');
+    if (parseInt(newsCheck.rows[0].count, 10) === 0) {
+      await client.query(`
+        INSERT INTO news (title, date, description, image_url) VALUES
+        ('Открытие нашей новой уютной студии!', '2026-05-20', 'Мы расширились! Теперь у нас есть собственное пространство для праздников с интерактивной зоной, сценой и банкетным залом.', 'https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=800&q=80'),
+        ('Новинка: Шоу гигантских мыльных пузырей с огнем', '2026-06-01', 'Уникальное интерактивное шоу, где каждый ребенок сможет оказаться внутри гигантского мыльного пузыря и загадать желание.', 'https://images.unsplash.com/photo-1501555088652-021faa106b9b?auto=format&fit=crop&w=800&q=80');
+      `);
+    }
+
+    // Заполняем таблицу отзывов, если пуста
+    const reviewsCheck = await client.query('SELECT COUNT(*) FROM reviews');
+    if (parseInt(reviewsCheck.rows[0].count, 10) === 0) {
+      await client.query(`
+        INSERT INTO reviews (author, text, rating, date, avatar_url) VALUES
+        ('Екатерина (мама Миши, 6 лет)', 'Спасибо огромное за праздник! Человек-Паук был просто на высоте. Дети в восторге, родители отдохнули. Очень чистая и красивая студия!', 5, '15.05.2026', 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=150&q=80'),
+        ('Дмитрий (папа Алисы, 8 лет)', 'Заказывали выездной квест на дачу. Аниматоры приехали вовремя, со своим реквизитом и музыкой. Увлекли даже взрослых. Рекомендую!', 5, '28.05.2026', 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80'),
+        ('Мария (мама Сони, 4 года)', 'Праздновали в студии Мультипраздник. Идеальный сервис, очень вежливые администраторы. Программа с Карамелькой супер-милая!', 5, '02.06.2026', 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=150&q=80');
+      `);
+    }
+
+    console.log('✅ Структура СУБД проверена. База данных PostgreSQL полностью готова!');
+    client.release();
+  } catch (err) {
+    console.error('❌ Критическая ошибка при инициализации таблиц БД:', err.message);
   }
 }
 
-// Запускаем инициализацию таблиц
+// Запускаем инициализацию таблиц в неблокирующем фоновом режиме
 initDatabase();
 
 // --- API ЭНДПОИНТЫ ---
@@ -163,7 +168,7 @@ app.get('/api/heroes', async (req, res) => {
     const result = await pool.query('SELECT * FROM heroes ORDER BY id ASC');
     res.json(result.rows);
   } catch (err) {
-    console.error('Ошибка при получении героев:', err);
+    console.error('Ошибка при получении героев:', err.message);
     res.status(500).json({ error: 'Ошибка сервера при получении списка героев' });
   }
 });
@@ -174,7 +179,7 @@ app.get('/api/news', async (req, res) => {
     const result = await pool.query('SELECT * FROM news ORDER BY date DESC');
     res.json(result.rows);
   } catch (err) {
-    console.error('Ошибка при получении новостей:', err);
+    console.error('Ошибка при получении новостей:', err.message);
     res.status(500).json({ error: 'Ошибка сервера' });
   }
 });
@@ -185,7 +190,7 @@ app.get('/api/reviews', async (req, res) => {
     const result = await pool.query('SELECT * FROM reviews ORDER BY id DESC');
     res.json(result.rows);
   } catch (err) {
-    console.error('Ошибка при получении отзывов:', err);
+    console.error('Ошибка при получении отзывов:', err.message);
     res.status(500).json({ error: 'Ошибка сервера' });
   }
 });
@@ -196,7 +201,7 @@ app.get('/api/bookings', async (req, res) => {
     const result = await pool.query('SELECT * FROM bookings ORDER BY event_date ASC, event_time ASC');
     res.json(result.rows);
   } catch (err) {
-    console.error('Ошибка при получении бронирований:', err);
+    console.error('Ошибка при получении бронирований:', err.message);
     res.status(500).json({ error: 'Ошибка сервера при получении календаря бронирований' });
   }
 });
@@ -255,7 +260,7 @@ app.post('/api/bookings', async (req, res) => {
     const result = await pool.query(queryText, values);
     res.status(201).json({ success: true, booking: result.rows[0] });
   } catch (err) {
-    console.error('Ошибка при создании записи бронирования:', err);
+    console.error('Ошибка при создании записи бронирования:', err.message);
     if (err.code === '23505') { // Код ошибки уникальности ключа PostgreSQL (Duplicate key)
       return res.status(400).json({ error: 'Бронирование с таким ID билета уже существует!' });
     }
@@ -278,7 +283,7 @@ app.put('/api/bookings/:id/status', async (req, res) => {
     }
     res.json({ success: true, booking: result.rows[0] });
   } catch (err) {
-    console.error('Ошибка при обновлении статуса:', err);
+    console.error('Ошибка при обновлении статуса:', err.message);
     res.status(500).json({ error: 'Ошибка сервера при обновлении статуса бронирования' });
   }
 });
@@ -293,9 +298,10 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-app.listen(PORT, () => {
+// Запуск веб-сервера. Мы вешаем его на порт, который выдает Render, без задержек.
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`\n==================================================`);
-  console.log(`🚀 Сервер Мультипраздник запущен на порту ${PORT}`);
+  console.log(`🚀 Сервер Мультипраздник успешно запущен на порту ${PORT}`);
   
   // Запуск самодиагностики папок при старте, чтобы сразу видеть ошибки в логах хостинга
   console.log(`🔍 --- ДИАГНОСТИКА СТАТИЧЕСКИХ ФАЙЛОВ ---`);
