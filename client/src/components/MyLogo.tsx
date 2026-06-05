@@ -35,33 +35,11 @@ export default function MyLogo({ dark = false }: { dark?: boolean }) {
           transition={{ duration: 0.5 }}
         >
           {/* Draw friendly cute bunny face with ears */}
-          <svg viewBox="0 0 100 100" className="w-8 h-8 text-brand-on-surface transform translate-y-0.5">
-            {/* Ears */}
-            <path d="M 30 30 Q 20 10, 35 15 Q 40 20, 42 40" fill="none" stroke="currentColor" strokeWidth="6" strokeLinecap="round" />
-            <path d="M 70 30 Q 80 10, 65 15 Q 60 20, 58 40" fill="none" stroke="currentColor" strokeWidth="6" strokeLinecap="round" />
-            {/* Inner ears (pink tint) */}
-            <path d="M 31 29 Q 25 15, 33 18 Q 36 21, 38 35" fill="none" stroke="#ffb77a" strokeWidth="3" strokeLinecap="round" />
-            <path d="M 69 29 Q 75 15, 67 18 Q 64 21, 62 35" fill="none" stroke="#ffb77a" strokeWidth="3" strokeLinecap="round" />
-            
-            {/* Head outline */}
-            <circle cx="50" cy="55" r="28" fill="white" stroke="currentColor" strokeWidth="6" />
-            
-            {/* Eyes */}
-            <circle cx="40" cy="50" r="4.5" fill="currentColor" />
-            <circle cx="60" cy="50" r="4.5" fill="currentColor" />
-            {/* Eye glint */}
-            <circle cx="38.5" cy="48.5" r="1.5" fill="white" />
-            <circle cx="58.5" cy="48.5" r="1.5" fill="white" />
-
-            {/* Nose (cute pink heart/tri) */}
-            <polygon points="46,57 54,57 50,61" fill="#ffb77a" stroke="currentColor" strokeWidth="1" />
-            
-            {/* Smile */}
-            <path d="M 43 65 Q 50 71 57 65" fill="none" stroke="currentColor" strokeWidth="4.5" strokeLinecap="round" />
-            {/* Cute rosy cheeks */}
-            <circle cx="30" cy="58" r="4" fill="#ffdcc2" opacity="0.8" />
-            <circle cx="70" cy="58" r="4" fill="#ffdcc2" opacity="0.8" />
-          </svg>
+          <img
+    src="https://ibb.co/21TpB6yk"
+    alt="Мультипраздник"
+    className="w-full h-full object-cover"
+  />
         </motion.div>
       </div>
 
