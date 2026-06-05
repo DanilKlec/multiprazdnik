@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  # Сервис Базы Данных PostgreSQL
+  postgres-db:
+    image: postgres:15-alpine
+    container_name: multiprazdnik_db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: multiprazdnik
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  # Сервис Бэкенда на Node.js
+  app:
+    build: .
+    container_name: multiprazdnik_app
+    restart: always
+    ports:
+      - "5000:5000"
+    environment:
+      - PORT=5000
+      - DATABASE_URL=postgresql://postgres:postgres@postgres-db:5432/multiprazdnik
+    depends_on:
+      - postgres-db
+
+volumes:
+  pgdata:

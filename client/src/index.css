@@ -1,0 +1,45 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800;900&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Nunito Sans", ui-sans-serif, system-ui, sans-serif;
+  
+  /* Joy & Magic Design System Palette */
+  --color-brand-surface: #f4fafd;
+  --color-brand-surface-dim: #d4dbdd;
+  --color-brand-surface-bright: #f4fafd;
+  --color-brand-container-lowest: #ffffff;
+  --color-brand-container-low: #eef5f7;
+  --color-brand-container: #e8eff1;
+  --color-brand-container-high: #e2e9ec;
+  --color-brand-container-highest: #dde4e6;
+  
+  --color-brand-on-surface: #161d1f;
+  --color-brand-on-surface-variant: #544437;
+  --color-brand-outline: #877365;
+  --color-brand-outline-variant: #dac2b1;
+  
+  --color-brand-primary: #8f4e00;
+  --color-brand-primary-hover: #b86500;
+  --color-brand-on-primary: #ffffff;
+  --color-brand-primary-container: #ff9f43;
+  --color-brand-on-primary-container: #6d3a00;
+  
+  --color-brand-secondary: #705d00;
+  --color-brand-on-secondary: #ffffff;
+  --color-brand-secondary-container: #fdd73b;
+  --color-brand-on-secondary-container: #715d00;
+  
+  --color-brand-tertiary: #5952af;
+  --color-brand-on-tertiary: #ffffff;
+  --color-brand-tertiary-container: #b3adff;
+  --color-brand-on-tertiary-container: #423996;
+}
+
+@layer base {
+  body {
+    background-color: var(--color-brand-surface);
+    color: var(--color-brand-on-surface);
+    font-family: var(--font-sans);
+  }
+}

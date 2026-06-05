@@ -1,0 +1,6 @@
+{
+  "name": "Мультипраздник",
+  "description": "Студия детских праздников в Тирасполе — создаем маленькие сказки с большой любовью! Программы, аниматоры, научные и шоу мыльных пузырей.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
