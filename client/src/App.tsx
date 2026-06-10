@@ -677,7 +677,7 @@ export default function App() {
               </div>
 
               <a
-                href="https://maps.app.goo.gl/7w2kK4qkcydJaAhM8"
+                href="https://maps.app.goo.gl/5PGNCiP6Eb75WSdG8"
                 target="_blank"
                 rel="noreferrer"
                 className="mt-6 inline-block w-full text-center py-3 rounded-2xl bg-brand-primary text-white font-black hover:opacity-90 transition"
@@ -689,7 +689,7 @@ export default function App() {
             {/* Карта */}
             <div className="lg:col-span-2 overflow-hidden rounded-3xl shadow-xl border-4 border-white">
               <iframe
-                src="https://www.google.com/maps?q=46.8385643,29.5852355&z=17&output=embed"
+                src="https://www.google.com/maps?q=46.8354031609749,29.6016722302494&z=17&output=embed"
                 className="w-full h-[500px]"
                 style={{ border: 0 }}
                 loading="lazy"
