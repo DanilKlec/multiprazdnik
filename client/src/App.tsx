@@ -650,7 +650,7 @@ export default function App() {
               <div className="space-y-4 text-sm">
                 <div>
                   <p className="font-bold text-brand-primary">📍 Адрес</p>
-                  <p>г. Тирасполь, ул. Карла Либкнехта 159/2</p>
+                  <p>г. Тирасполь, 25th October St 26</p>
                 </div>
 
                 <div>
