@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import {
-  PROGRAMS_DATA,
-  CHARACTERS_DATA,
-  Program,
-  Character
+import { 
+  PROGRAMS_DATA, 
+  CHARACTERS_DATA, 
+  Program, 
+  Character 
 } from './types';
 import ParticlesBg from './components/ParticlesBg';
 import { IconResolver } from './components/MagicIcons';
@@ -57,10 +57,10 @@ export default function App() {
     const rect = e.currentTarget.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
-
+    
     const count = 6;
     const emojis = [customEmoji, '🌟', '🎈', '❤️', '🦋', '🎉'];
-
+    
     const newItems = Array.from({ length: count }).map((_, idx) => ({
       id: Date.now() + Math.random() + idx,
       emoji: emojis[Math.floor(Math.random() * emojis.length)],
@@ -116,11 +116,11 @@ export default function App() {
               className="absolute text-xl font-bold pointer-events-none select-none"
               style={{ left: f.x - 10, top: f.y - 12 }}
               initial={{ scale: 0.5, y: 0, opacity: 1, x: 0 }}
-              animate={{
-                scale: [0.5, 1.4, 0.8],
-                y: -100 - Math.random() * 50,
+              animate={{ 
+                scale: [0.5, 1.4, 0.8], 
+                y: -100 - Math.random() * 50, 
                 x: (Math.random() - 0.5) * 80,
-                opacity: 0
+                opacity: 0 
               }}
               exit={{ opacity: 0 }}
               transition={{ duration: 1.2, ease: "easeOut" }}
@@ -132,11 +132,12 @@ export default function App() {
       </div>
 
       {/* HEADER BAR */}
-      <header
-        className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${isScrolled
-            ? 'bg-white/90 backdrop-blur-md py-3 shadow-md border-b border-brand-container'
+      <header 
+        className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
+          isScrolled 
+            ? 'bg-white/90 backdrop-blur-md py-3 shadow-md border-b border-brand-container' 
             : 'bg-transparent py-5'
-          }`}
+        }`}
         id="app-header-navigation"
       >
         <div className="max-w-7xl mx-auto px-4 md:px-8 flex items-center justify-between gap-4">
@@ -172,8 +173,8 @@ export default function App() {
           {/* Action Callouts */}
           <div className="flex items-center gap-3">
             {/* Real phone link */}
-            <a
-              href="tel:+37377768649"
+            <a 
+              href="tel:+37377768649" 
               className="flex items-center gap-1.5 px-3.5 py-2 rounded-full font-bold text-xs md:text-sm text-white bg-brand-primary-container hover:bg-brand-primary text-center tracking-wide transition-all scale-100 active:scale-95 shadow-sm"
               id="header-phone-quicklink"
             >
@@ -194,13 +195,13 @@ export default function App() {
       </header>
 
       {/* HERO SECTION */}
-      <section
-        id="hero"
+      <section 
+        id="hero" 
         className="relative pt-28 md:pt-36 pb-16 md:pb-24 grid grid-cols-1 lg:grid-cols-12 gap-10 max-w-7xl mx-auto px-4 md:px-8 items-center"
       >
         {/* Left column info */}
         <div className="lg:col-span-7 space-y-6 text-center lg:text-left z-10">
-          <motion.div
+          <motion.div 
             className="inline-flex items-center gap-1 bg-[#ffb77a]/20 border border-[#ffb77a]/50 text-brand-primary font-extrabold text-xs px-3.5 py-1.5 rounded-full"
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -208,7 +209,7 @@ export default function App() {
             <span>✨</span> Вошебство в каждом моменте
           </motion.div>
 
-          <motion.h1
+          <motion.h1 
             className="text-4xl md:text-[52px] font-black text-brand-on-surface leading-[1.1] tracking-tight font-sans"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -217,7 +218,7 @@ export default function App() {
             Мультипраздник — <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-primary to-[#ff9f43]">создаем</span> маленькие сказки с большой <span className="text-rose-500 relative">любовью! <span className="absolute -bottom-1 left-0 w-full h-1 bg-yellow-400 rounded-md" /></span>
           </motion.h1>
 
-          <motion.p
+          <motion.p 
             className="text-brand-on-surface-variant text-base md:text-lg font-semibold max-w-xl leading-relaxed mx-auto lg:mx-0 text-justify"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -226,7 +227,7 @@ export default function App() {
             Оживляем любимых героев, проводим яркие шоу и дарим настоящую радость в Тирасполе и на выезде. Каждый праздник для нас — это неповторимая история детских улыбок!
           </motion.p>
 
-          <motion.div
+          <motion.div 
             className="flex flex-col sm:flex-row items-center gap-3.5 justify-center lg:justify-start"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -237,7 +238,7 @@ export default function App() {
               className="w-full sm:w-auto px-8 py-4 rounded-2xl font-black text-white bg-brand-primary-container hover:bg-brand-primary hover:shadow-lg transition-all text-base cursor-pointer transform hover:-translate-y-0.5 active:translate-y-0 shadow-sm"
               id="hero-choose-celebration-btn"
             >
-              Выбрать праздник
+              Выбрать праздник 
             </button>
             <a
               href="#programs"
@@ -251,7 +252,7 @@ export default function App() {
 
         {/* Right column visually engaging mockup card & banner */}
         <div className="lg:col-span-5 relative z-10 flex justify-center">
-          <motion.div
+          <motion.div 
             className="relative w-full max-w-[400px] h-[450px] md:h-[480px] bg-white rounded-3xl p-3 shadow-xl border-4 border-white overflow-hidden group"
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -393,7 +394,7 @@ export default function App() {
             if (prog.id === 'animators') iconColor = 'bg-blue-105 text-blue-600';
 
             return (
-              <motion.div
+              <motion.div 
                 key={prog.id}
                 className="bg-white rounded-2xl p-6 border-2 border-[#eef5f7] shadow-sm hover:shadow-xl hover:-translate-y-2.5 transition-all duration-300 flex flex-col justify-between text-left group"
                 initial={{ opacity: 0, y: 30 }}
@@ -421,7 +422,7 @@ export default function App() {
 
                 {/* Interactive button that opens modal dialog */}
                 <div className="pt-6 mt-4 border-t border-brand-container/50 flex justify-between items-center">
-                  <button
+                  <button 
                     onClick={() => setSelectedProgram(prog)}
                     className="text-xs font-black text-brand-primary hover:text-brand-primary-hover flex items-center gap-1 cursor-pointer"
                     id={`open-detail-btn-${prog.id}`}
@@ -459,42 +460,46 @@ export default function App() {
 
           {/* Categorized switcher row */}
           <div className="flex flex-wrap items-center justify-center gap-2 max-w-2xl mx-auto">
-            <button
+            <button 
               onClick={() => setActiveHeroTab('girls')}
-              className={`px-5 py-2.5 rounded-full font-bold text-xs md:text-sm cursor-pointer transition-all ${activeHeroTab === 'girls'
-                  ? 'bg-brand-primary text-white shadow-md scale-103'
+              className={`px-5 py-2.5 rounded-full font-bold text-xs md:text-sm cursor-pointer transition-all ${
+                activeHeroTab === 'girls' 
+                  ? 'bg-brand-primary text-white shadow-md scale-103' 
                   : 'bg-white text-brand-on-surface-variant border border-brand-container-medium hover:bg-brand-container-low'
-                }`}
+              }`}
               id="hero-tab-girls"
             >
               👩‍🦰 Девочки
             </button>
-            <button
+            <button 
               onClick={() => setActiveHeroTab('boys')}
-              className={`px-5 py-2.5 rounded-full font-bold text-xs md:text-sm cursor-pointer transition-all ${activeHeroTab === 'boys'
-                  ? 'bg-brand-primary text-white shadow-md scale-103'
+              className={`px-5 py-2.5 rounded-full font-bold text-xs md:text-sm cursor-pointer transition-all ${
+                activeHeroTab === 'boys' 
+                  ? 'bg-brand-primary text-white shadow-md scale-103' 
                   : 'bg-white text-brand-on-surface-variant border border-brand-container-medium hover:bg-brand-container-low'
-                }`}
+              }`}
               id="hero-tab-boys"
             >
               👦 Мальчики
             </button>
-            <button
+            <button 
               onClick={() => setActiveHeroTab('teens')}
-              className={`px-5 py-2.5 rounded-full font-bold text-xs md:text-sm cursor-pointer transition-all ${activeHeroTab === 'teens'
-                  ? 'bg-brand-primary text-white shadow-md scale-103'
+              className={`px-5 py-2.5 rounded-full font-bold text-xs md:text-sm cursor-pointer transition-all ${
+                activeHeroTab === 'teens' 
+                  ? 'bg-brand-primary text-white shadow-md scale-103' 
                   : 'bg-white text-brand-on-surface-variant border border-brand-container-medium hover:bg-brand-container-low'
-                }`}
+              }`}
               id="hero-tab-teens"
             >
               ⚡ Подростки
             </button>
-            <button
+            <button 
               onClick={() => setActiveHeroTab('universal')}
-              className={`px-5 py-2.5 rounded-full font-bold text-xs md:text-sm cursor-pointer transition-all ${activeHeroTab === 'universal'
-                  ? 'bg-brand-primary text-white shadow-md scale-103'
+              className={`px-5 py-2.5 rounded-full font-bold text-xs md:text-sm cursor-pointer transition-all ${
+                activeHeroTab === 'universal' 
+                  ? 'bg-brand-primary text-white shadow-md scale-103' 
                   : 'bg-white text-brand-on-surface-variant border border-brand-container-medium hover:bg-brand-container-low'
-                }`}
+              }`}
               id="hero-tab-universal"
             >
               🎭 Универсальные
@@ -502,13 +507,13 @@ export default function App() {
           </div>
 
           {/* Filtered characters list grid with layout animation */}
-          <motion.div
+          <motion.div 
             className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 pt-4"
             layout
           >
             <AnimatePresence mode="popLayout">
               {CHARACTERS_DATA.filter((c) => c.category === activeHeroTab).map((char) => (
-                <motion.div
+                <motion.div 
                   key={char.id}
                   className="bg-white rounded-2xl overflow-hidden shadow-sm border border-brand-container hover:shadow-xl transition-all duration-400 group flex flex-col justify-between"
                   initial={{ opacity: 0, scale: 0.9 }}
@@ -521,9 +526,9 @@ export default function App() {
                 >
                   {/* Character Image */}
                   <div className="relative aspect-[4/3] overflow-hidden bg-brand-container-low cursor-pointer">
-                    <img
-                      src={char.imageUrl}
-                      alt={char.name}
+                    <img 
+                      src={char.imageUrl} 
+                      alt={char.name} 
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       referrerPolicy="no-referrer"
                     />
@@ -556,7 +561,7 @@ export default function App() {
                     </div>
 
                     {/* Book now helper triggers */}
-                    <button
+                    <button 
                       onClick={(e) => {
                         e.stopPropagation();
                         handleOpenBooking('', char.name);
@@ -582,7 +587,7 @@ export default function App() {
 
       {/* SPECIAL PROMOTION CALL TO ACTION BANNER */}
       <section className="py-16 max-w-7xl mx-auto px-4 md:px-8">
-        <motion.div
+        <motion.div 
           className="relative rounded-3xl p-8 md:p-12 overflow-hidden shadow-xl text-left bg-gradient-to-r from-brand-secondary-container via-brand-primary-container to-[#ffb77a]/60 border-4 border-white flex flex-col md:flex-row justify-between items-center gap-8"
           whileHover={{ scale: 1.01 }}
           transition={{ duration: 0.3 }}
@@ -600,7 +605,7 @@ export default function App() {
           </div>
 
           {/* Trigger button */}
-          <button
+          <button 
             onClick={() => handleOpenBooking('Выпускной в студии / выездной')}
             className="shrink-0 w-full md:w-auto px-8 py-4 bg-white hover:bg-brand-container-low text-brand-primary rounded-2xl font-black text-sm transition-all shadow-md active:scale-95 cursor-pointer relative z-10"
             id="promo-action-link-btn"
@@ -621,90 +626,10 @@ export default function App() {
         </div>
       </section>
 
-      {/* MAP SECTION */}
-      <section className="py-20 bg-brand-container-low/40">
-        <div className="max-w-7xl mx-auto px-4 md:px-8">
-
-          <div className="text-center mb-10">
-            <span className="text-xs uppercase tracking-widest font-black text-brand-primary">
-              КАК НАС НАЙТИ
-            </span>
-
-            <h2 className="text-3xl md:text-4xl font-black text-brand-on-surface mt-2">
-              Ждём вас в нашей студии 🎉
-            </h2>
-
-            <p className="text-brand-on-surface-variant font-semibold mt-3">
-              г. Тирасполь, ул. Карла Либкнехта 159/2
-            </p>
-          </div>
-
-          <div className="grid lg:grid-cols-3 gap-8">
-
-            {/* Информация */}
-            <div className="bg-white rounded-3xl p-6 shadow-lg border border-brand-container">
-              <h3 className="font-black text-xl text-brand-on-surface mb-4">
-                Контакты
-              </h3>
-
-              <div className="space-y-4 text-sm">
-                <div>
-                  <p className="font-bold text-brand-primary">📍 Адрес</p>
-                  <p>г. Тирасполь, ул. Карла Либкнехта 159/2</p>
-                </div>
-
-                <div>
-                  <p className="font-bold text-brand-primary">📞 Телефон</p>
-                  <a
-                    href="tel:+37377768649"
-                    className="hover:text-brand-primary"
-                  >
-                    +373 777 68 649
-                  </a>
-                </div>
-
-                <div>
-                  <p className="font-bold text-brand-primary">📷 Instagram</p>
-                  <a
-                    href="https://www.instagram.com/multiprazdnik_tiraspol/"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="hover:text-brand-primary"
-                  >
-                    @multiprazdnik_tiraspol
-                  </a>
-                </div>
-              </div>
-
-              <a
-                href="https://maps.app.goo.gl/7w2kK4qkcydJaAhM8"
-                target="_blank"
-                rel="noreferrer"
-                className="mt-6 inline-block w-full text-center py-3 rounded-2xl bg-brand-primary text-white font-black hover:opacity-90 transition"
-              >
-                Построить маршрут 🗺️
-              </a>
-            </div>
-
-            {/* Карта */}
-            <div className="lg:col-span-2 overflow-hidden rounded-3xl shadow-xl border-4 border-white">
-              <iframe
-                src="https://www.google.com/maps?q=46.8385643,29.5852355&z=17&output=embed"
-                className="w-full h-[500px]"
-                style={{ border: 0 }}
-                loading="lazy"
-                allowFullScreen
-              />
-            </div>
-
-          </div>
-        </div>
-      </section>
-
       {/* FOOTER & CONTACTS ZONE */}
       <footer id="contacts" className="bg-brand-on-surface text-white pt-16 pb-8 border-t border-brand-container">
         <div className="max-w-7xl mx-auto px-4 md:px-8 grid grid-cols-1 md:grid-cols-12 gap-10 pb-12 border-b border-white/10">
-
+          
           {/* Logo column */}
           <div className="md:col-span-5 space-y-4 text-left">
             <MyLogo dark />
@@ -713,9 +638,9 @@ export default function App() {
             </p>
             {/* Instagram link icon layout */}
             <div className="pt-2">
-              <a
-                href="https://www.instagram.com/multiprazdnik_tiraspol/"
-                target="_blank"
+              <a 
+                href="https://www.instagram.com/multiprazdnik_tiraspol/" 
+                target="_blank" 
                 rel="noreferrer"
                 className="inline-flex items-center gap-2 text-xs font-bold text-white/80 hover:text-brand-primary-container transition-colors"
                 id="instagram-social-action"
@@ -769,14 +694,14 @@ export default function App() {
               <form onSubmit={submitCallback} className="space-y-1.5 pt-2">
                 <p className="text-[10px] uppercase text-brand-primary-container tracking-wider block">Заказать обратный звонок</p>
                 <div className="flex gap-1.5">
-                  <input
-                    type="tel"
-                    placeholder="Ваш телефон"
+                  <input 
+                    type="tel" 
+                    placeholder="Ваш телефон" 
                     value={clientPhone}
                     onChange={(e) => setClientPhone(e.target.value)}
                     className="bg-white/10 rounded-xl px-3 py-2 text-xs font-bold text-white placeholder:text-white/40 focus:outline-none focus:bg-white/20 w-full border border-white/5"
                   />
-                  <button
+                  <button 
                     type="submit"
                     className="bg-brand-primary-container text-brand-on-primary-container px-3.5 py-2 rounded-xl text-xs font-extrabold flex items-center justify-center transition-all hover:bg-brand-primary cursor-pointer"
                   >
@@ -794,7 +719,7 @@ export default function App() {
         {/* Legal copyright watermark row */}
         <div className="max-w-7xl mx-auto px-4 md:px-8 pt-8 flex flex-col sm:flex-row items-center justify-between text-[11px] font-bold text-white/50 gap-4">
           <p>
-            <span
+            <span 
               onClick={() => setIsAdminOpen(true)}
               className="cursor-pointer"
             >
@@ -810,14 +735,14 @@ export default function App() {
       </footer>
 
       {/* OVERLAY MODALS & DIALOG WIZARDS COMPONENT MAPPING */}
-      <ProgramModal
+      <ProgramModal 
         program={selectedProgram}
         onClose={() => setSelectedProgram(null)}
         onBook={(title) => handleOpenBooking(title)}
         availableHeroes={CHARACTERS_DATA}
       />
 
-      <BookingWizard
+      <BookingWizard 
         isOpen={isBookingOpen}
         onClose={() => setIsBookingOpen(false)}
         programs={PROGRAMS_DATA}
@@ -826,7 +751,7 @@ export default function App() {
         defaultCharacterName={defaultCharacter}
       />
 
-      <AdminPanel
+      <AdminPanel 
         isOpen={isAdminOpen}
         onClose={() => setIsAdminOpen(false)}
         programs={PROGRAMS_DATA}
