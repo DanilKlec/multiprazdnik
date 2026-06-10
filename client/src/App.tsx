@@ -635,7 +635,7 @@ export default function App() {
             </h2>
 
             <p className="text-brand-on-surface-variant font-semibold mt-3">
-              г. Тирасполь, ул. Карла Либкнехта 159/2
+              г. Тирасполь, 25th October St 26
             </p>
           </div>
 
