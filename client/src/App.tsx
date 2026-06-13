@@ -134,8 +134,8 @@ export default function App() {
       {/* HEADER BAR */}
       <header
         className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${isScrolled
-            ? 'bg-white/90 backdrop-blur-md py-3 shadow-md border-b border-brand-container'
-            : 'bg-transparent py-5'
+          ? 'bg-white/90 backdrop-blur-md py-3 shadow-md border-b border-brand-container'
+          : 'bg-transparent py-5'
           }`}
         id="app-header-navigation"
       >
@@ -462,8 +462,8 @@ export default function App() {
             <button
               onClick={() => setActiveHeroTab('girls')}
               className={`px-5 py-2.5 rounded-full font-bold text-xs md:text-sm cursor-pointer transition-all ${activeHeroTab === 'girls'
-                  ? 'bg-brand-primary text-white shadow-md scale-103'
-                  : 'bg-white text-brand-on-surface-variant border border-brand-container-medium hover:bg-brand-container-low'
+                ? 'bg-brand-primary text-white shadow-md scale-103'
+                : 'bg-white text-brand-on-surface-variant border border-brand-container-medium hover:bg-brand-container-low'
                 }`}
               id="hero-tab-girls"
             >
@@ -472,8 +472,8 @@ export default function App() {
             <button
               onClick={() => setActiveHeroTab('boys')}
               className={`px-5 py-2.5 rounded-full font-bold text-xs md:text-sm cursor-pointer transition-all ${activeHeroTab === 'boys'
-                  ? 'bg-brand-primary text-white shadow-md scale-103'
-                  : 'bg-white text-brand-on-surface-variant border border-brand-container-medium hover:bg-brand-container-low'
+                ? 'bg-brand-primary text-white shadow-md scale-103'
+                : 'bg-white text-brand-on-surface-variant border border-brand-container-medium hover:bg-brand-container-low'
                 }`}
               id="hero-tab-boys"
             >
@@ -482,8 +482,8 @@ export default function App() {
             <button
               onClick={() => setActiveHeroTab('teens')}
               className={`px-5 py-2.5 rounded-full font-bold text-xs md:text-sm cursor-pointer transition-all ${activeHeroTab === 'teens'
-                  ? 'bg-brand-primary text-white shadow-md scale-103'
-                  : 'bg-white text-brand-on-surface-variant border border-brand-container-medium hover:bg-brand-container-low'
+                ? 'bg-brand-primary text-white shadow-md scale-103'
+                : 'bg-white text-brand-on-surface-variant border border-brand-container-medium hover:bg-brand-container-low'
                 }`}
               id="hero-tab-teens"
             >
@@ -492,8 +492,8 @@ export default function App() {
             <button
               onClick={() => setActiveHeroTab('universal')}
               className={`px-5 py-2.5 rounded-full font-bold text-xs md:text-sm cursor-pointer transition-all ${activeHeroTab === 'universal'
-                  ? 'bg-brand-primary text-white shadow-md scale-103'
-                  : 'bg-white text-brand-on-surface-variant border border-brand-container-medium hover:bg-brand-container-low'
+                ? 'bg-brand-primary text-white shadow-md scale-103'
+                : 'bg-white text-brand-on-surface-variant border border-brand-container-medium hover:bg-brand-container-low'
                 }`}
               id="hero-tab-universal"
             >
@@ -524,7 +524,7 @@ export default function App() {
                     <img
                       src={char.imageUrl}
                       alt={char.name}
-                      className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
+                      className="w-full h-full object-cover object-[center_10%] group-hover:scale-105 transition-transform duration-500"
                       referrerPolicy="no-referrer"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-3">
