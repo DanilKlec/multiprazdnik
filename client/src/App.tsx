@@ -524,7 +524,7 @@ export default function App() {
                     <img
                       src={char.imageUrl}
                       alt={char.name}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
                       referrerPolicy="no-referrer"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-3">
@@ -635,7 +635,7 @@ export default function App() {
             </h2>
 
             <p className="text-brand-on-surface-variant font-semibold mt-3">
-              г. Тирасполь, 25th October St 26
+              г. Тирасполь, ул. Карла Либкнехта, 159/2
             </p>
           </div>
 
@@ -650,7 +650,7 @@ export default function App() {
               <div className="space-y-4 text-sm">
                 <div>
                   <p className="font-bold text-brand-primary">📍 Адрес</p>
-                  <p>г. Тирасполь, 25th October St 26</p>
+                  <p>г. Тирасполь, ул. Карла Либкнехта, 159/2</p>
                 </div>
 
                 <div>
@@ -677,7 +677,7 @@ export default function App() {
               </div>
 
               <a
-                href="https://maps.app.goo.gl/5PGNCiP6Eb75WSdG8"
+                href="https://maps.app.goo.gl/WJoQYjKDkXNjxP9SA"
                 target="_blank"
                 rel="noreferrer"
                 className="mt-6 inline-block w-full text-center py-3 rounded-2xl bg-brand-primary text-white font-black hover:opacity-90 transition"
@@ -689,7 +689,7 @@ export default function App() {
             {/* Карта */}
             <div className="lg:col-span-2 overflow-hidden rounded-3xl shadow-xl border-4 border-white">
               <iframe
-                src="https://www.google.com/maps?q=46.8354031609749,29.6016722302494&z=17&output=embed"
+                src="https://www.google.com/maps?q=46.83866346075466,29.585312944195586&z=17&output=embed"
                 className="w-full h-[500px]"
                 style={{ border: 0 }}
                 loading="lazy"
